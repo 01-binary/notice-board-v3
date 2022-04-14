@@ -1,4 +1,5 @@
-const Logo = (props: unknown) => (
+/* eslint-disable @typescript-eslint/no-explicit-any */
+const Logo = (props: any) => (
   <svg
     width={68}
     height={33}

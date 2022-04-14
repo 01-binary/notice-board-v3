@@ -1,6 +1,9 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 
+import Tool from "components/home/Tool";
+import Content from "components/home/Content";
+
 const Home: NextPage = () => {
   return (
     <div>
@@ -10,8 +13,8 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="flex flex-col px-4 mt-8">
-        {/* <Tool /> */}
-        {/* <Content /> */}
+        <Tool />
+        <Content />
       </div>
     </div>
   );
