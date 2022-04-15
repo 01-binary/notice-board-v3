@@ -1,8 +1,8 @@
 import { FC } from "react";
 
 import Table from "components/common/Table";
-// import Loading from "components/common/Loading";
-// import Modal from "components/common/Modal";
+import Loading from "components/common/Loading";
+import Modal from "components/common/Modal";
 
 import { useIntersectionObserver, useModalData } from "components/common/hooks";
 // import useContent from "./hook";
@@ -22,14 +22,17 @@ const Content: FC = () => {
   //     addPostLoading,
   //     selectedPostLoading,
   //   } = useContent();
+  const selectedPostLoading = false;
+  const isNeedMoreFetch = true;
 
-  //   const { setTarget } = useIntersectionObserver({
-  //     onIntersect: ([{ isIntersecting }]) => {
-  //       if (isIntersecting && !addPostLoading && !postsLoading) {
-  //         setPage();
-  //       }
-  //     },
-  //   });
+  const { setTarget } = useIntersectionObserver({
+    onIntersect: ([{ isIntersecting }]) => {
+      if (isIntersecting) {
+        // && !addPostLoading && !postsLoading
+        // setPage();
+      }
+    },
+  });
 
   return (
     <>
@@ -46,7 +49,7 @@ const Content: FC = () => {
           }
         }}
       />
-      {/* {isNeedMoreFetch ? (
+      {isNeedMoreFetch ? (
         <div ref={setTarget}>
           <Loading height="100px" />
         </div>
@@ -59,13 +62,13 @@ const Content: FC = () => {
           <Loading />
         ) : (
           <div className="flex flex-col gap-2 mx-4 mt-8 mb-0">
-            <div className="text-xl font-bold">{`${TITLE} ${selectedPost?.title}`}</div>
+            {/* <div className="text-xl font-bold">{`${TITLE} ${selectedPost?.title}`}</div>
             <div className="flex justify-end font-medium">{`${AUTHOR} ${selectedPost?.author}`}</div>
             <div className="my-4 mx-0">{`${selectedPost?.content}`}</div>
-            <div className="flex justify-center text-slate-200">{`${selectedPost?.createdAt}`}</div>
+            <div className="flex justify-center text-slate-200">{`${selectedPost?.createdAt}`}</div> */}
           </div>
         )}
-      </Modal> */}
+      </Modal>
     </>
   );
 };

@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, useState, useCallback } from "react";
 
 import Button from "components/common/Button";
-// import Modal from "components/common/Modal";
+import Modal from "components/common/Modal";
 import Loading from "components/common/Loading";
 
 import { useModalData } from "components/common/hooks";
@@ -19,31 +20,32 @@ const Tool: FC = () => {
     content: "",
   });
 
-  //   const handleSubmit = useCallback(
-  //     (event) => {
-  //       event.preventDefault();
-  //       addPost({ addPostRequest: { ...formState }, onSuccess: closeModal });
-  //     },
-  //     // eslint-disable-next-line react-hooks/exhaustive-deps
-  //     [formState],
-  //   );
+  const handleSubmit = useCallback(
+    (event: any) => {
+      event.preventDefault();
+      // addPost({ addPostRequest: { ...formState }, onSuccess: closeModal });
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [formState],
+  );
 
-  //   const handleChange = (input: AddPostInput) => (event: any) => {
-  //     switch (input) {
-  //       case "title":
-  //         SetFormState({ ...formState, title: event.target.value });
-  //         break;
-  //       case "author":
-  //         SetFormState({ ...formState, author: event.target.value });
-  //         break;
-  //       case "content":
-  //         SetFormState({ ...formState, content: event.target.value });
-  //         break;
-  //       default:
-  //         break;
-  //     }
-  //   };
+  const handleChange = (input: AddPostInput) => (event: any) => {
+    switch (input) {
+      case "title":
+        SetFormState({ ...formState, title: event.target.value });
+        break;
+      case "author":
+        SetFormState({ ...formState, author: event.target.value });
+        break;
+      case "content":
+        SetFormState({ ...formState, content: event.target.value });
+        break;
+      default:
+        break;
+    }
+  };
 
+  const addPostLoading = false;
   return (
     <>
       <div className="flex justify-between items-center mb-8">
@@ -57,7 +59,7 @@ const Tool: FC = () => {
           {ADD_POST}
         </Button>
       </div>
-      {/* <Modal visible={isModalVisible} closeModal={closeModal}>
+      <Modal visible={isModalVisible} closeModal={closeModal}>
         {addPostLoading ? (
           <Loading />
         ) : (
@@ -108,7 +110,7 @@ const Tool: FC = () => {
             </form>
           </>
         )}
-      </Modal> */}
+      </Modal>
     </>
   );
 };

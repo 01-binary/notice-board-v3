@@ -8,22 +8,23 @@ export interface Post {
   content: string;
 }
 
-export interface PostsState {
-  loading: boolean;
-  data: Post[] | [];
-  total: number | null;
-  error: APIError | null;
-}
-
-export interface SelectedPostState {
-  loading: boolean;
-  data: Post | null;
-  error: APIError | null;
-}
-
-export interface AddPostState {
-  loading: boolean;
-  error: APIError | null;
+export interface PostReduxState {
+  posts: {
+    loading: boolean;
+    data: Post[] | [];
+    total: number | null;
+    error: APIError | null;
+  };
+  selectedPost: {
+    loading: boolean;
+    data: Post | null;
+    error: APIError | null;
+  };
+  addPost: {
+    loading: boolean;
+    error: APIError | null;
+  };
+  page: number;
 }
 
 export type AddPostRequest = {
