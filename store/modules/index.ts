@@ -2,9 +2,11 @@ import { AnyAction, combineReducers } from "@reduxjs/toolkit";
 import { HYDRATE } from "next-redux-wrapper";
 
 import { postsReducer, POSTS } from "store/modules/posts";
+import { api } from "apis";
 
 const combinedReducer = combineReducers({
   [POSTS]: postsReducer,
+  [api.reducerPath]: api.reducer,
 });
 
 const rootReducer = (

@@ -10,10 +10,8 @@ export interface Post {
 
 export interface PostReduxState {
   posts: {
-    loading: boolean;
     data: Post[] | [];
     total: number | null;
-    error: APIError | null;
   };
   selectedPost: {
     loading: boolean;
@@ -31,6 +29,11 @@ export type AddPostRequest = {
   title: string;
   author: string;
   content: string;
+};
+
+export type getPostListRequest = {
+  page: number;
+  limit: number;
 };
 
 export type AddPostInput = keyof AddPostRequest;

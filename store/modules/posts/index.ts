@@ -1,17 +1,16 @@
 import { createSlice, PayloadAction, createSelector } from "@reduxjs/toolkit";
 
+import { api } from "apis";
+
 import type { RootState } from "store";
 import type { PostReduxState, Post } from "interface/posts";
-import type { APIError } from "interface/error";
 
 export const POSTS = "posts";
 
 const initialState: PostReduxState = {
   posts: {
-    loading: false,
     data: [],
     total: null,
-    error: null,
   },
   selectedPost: {
     loading: false,
@@ -33,66 +32,35 @@ const postsSlice = createSlice({
       state.page = action.payload.page;
     },
   },
-  //   extraReducers: (builder) => {
-  //     builder
-  //       .addCase(`${postsAsyncAction.getPosts.request}`, (state) => {
-  //         state.posts.loading = true;
-  //       })
-  //       .addCase(
-  //         `${postsAsyncAction.getPosts.success}`,
-  //         (state, action: PayloadAction<{ posts: Post[]; total: number }>) => {
-  //           const { posts, total } = action.payload;
-  //           state.posts.loading = false;
-  //           state.posts.data = [...state.posts.data, ...posts];
+  extraReducers: (builder) => {
+    builder.addMatcher(
+      api.endpoints.getPostList.matchFulfilled,
+      (state, action: PayloadAction<{ posts: Post[]; total: number }>) => {
+        const { posts, total } = action.payload;
+        state.posts.data = [...state.posts.data, ...posts];
+        state.posts.total = total;
+      },
+    );
 
-  //           state.posts.total = total;
-  //         },
-  //       )
-  //       .addCase(
-  //         `${postsAsyncAction.getPosts.failure}`,
-  //         (state, action: PayloadAction<APIError>) => {
-  //           state.posts.loading = false;
-  //           state.posts.error = action.payload;
-  //         },
-  //       )
-  //       .addCase(`${postsAsyncAction.addPosts.request}`, (state) => {
-  //         state.addPost.loading = true;
-  //       })
-  //       .addCase(
-  //         `${postsAsyncAction.addPosts.success}`,
-  //         (state, action: PayloadAction<{ post: Post }>) => {
-  //           state.addPost.loading = false;
-  //           if (state.page !== 1) {
-  //             state.posts.data = [];
-  //             state.page = 1;
-  //           }
-  //         },
-  //       )
-  //       .addCase(
-  //         `${postsAsyncAction.addPosts.failure}`,
-  //         (state, action: PayloadAction<APIError>) => {
-  //           state.addPost.loading = false;
-  //           state.addPost.error = action.payload;
-  //         },
-  //       )
-  //       .addCase(`${postsAsyncAction.getSelectedPost.request}`, (state) => {
-  //         state.selectedPost.loading = true;
-  //       })
-  //       .addCase(
-  //         `${postsAsyncAction.getSelectedPost.success}`,
-  //         (state, action: PayloadAction<{ post: Post }>) => {
-  //           state.selectedPost.loading = false;
-  //           state.selectedPost.data = action.payload.post;
-  //         },
-  //       )
-  //       .addCase(
-  //         `${postsAsyncAction.getSelectedPost.failure}`,
-  //         (state, action: PayloadAction<APIError>) => {
-  //           state.selectedPost.loading = false;
-  //           state.selectedPost.error = action.payload;
-  //         },
-  //       );
-  //   },
+    // .addCase(
+    //   `${postsAsyncAction.addPosts.success}`,
+    //   (state, action: PayloadAction<{ post: Post }>) => {
+    //     state.addPost.loading = false;
+    //     if (state.page !== 1) {
+    //       state.posts.data = [];
+    //       state.page = 1;
+    //     }
+    //   },
+    // )
+
+    // .addCase(
+    //   `${postsAsyncAction.getSelectedPost.success}`,
+    //   (state, action: PayloadAction<{ post: Post }>) => {
+    //     state.selectedPost.loading = false;
+    //     state.selectedPost.data = action.payload.post;
+    //   },
+    // )
+  },
 });
 
 const selfSelector = (state: RootState) => state[POSTS];
@@ -100,10 +68,8 @@ const selfSelector = (state: RootState) => state[POSTS];
 const postsSelector = createSelector(selfSelector, (state) => state.posts);
 
 export const PostsSelector = {
-  loading: createSelector(postsSelector, (posts) => posts.loading),
-  data: createSelector(postsSelector, (posts) => posts.data),
+  posts: createSelector(postsSelector, (posts) => posts.data),
   total: createSelector(postsSelector, (posts) => posts.total),
-  error: createSelector(postsSelector, (posts) => posts.error),
 };
 
 const selectedPostSelector = createSelector(
