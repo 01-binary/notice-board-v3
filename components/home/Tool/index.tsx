@@ -6,14 +6,18 @@ import Modal from "components/common/Modal";
 import Loading from "components/common/Loading";
 
 import { useModalData } from "components/common/hooks";
-// import useTool from "./hook";
+import useTool from "./hook";
 
 import { ADD_POST, TITLE, CONTENT, AUTHOR, TOTAL } from "assets/string";
 import type { AddPostRequest, AddPostInput } from "interface/posts";
 
 const Tool: FC = () => {
   const { isModalVisible, showModal, closeModal } = useModalData();
-  //   const { addPost, addPostLoading, total } = useTool();
+  const {
+    // addPost,
+    addPostLoading,
+    total,
+  } = useTool();
   const [formState, SetFormState] = useState<AddPostRequest>({
     title: "",
     author: "",
@@ -45,11 +49,10 @@ const Tool: FC = () => {
     }
   };
 
-  const addPostLoading = false;
   return (
     <>
       <div className="flex justify-between items-center mb-8">
-        <div className="text-lg font-medium">{`${TOTAL} ${0}개`}</div>
+        <div className="text-lg font-medium">{`${TOTAL} ${total}개`}</div>
         <Button
           size={"medium"}
           onClick={() => {

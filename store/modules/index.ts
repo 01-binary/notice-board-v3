@@ -12,7 +12,7 @@ const rootReducer = (
   action: AnyAction,
 ) => {
   if (action.type === HYDRATE) {
-    return action.payload;
+    return { ...state, ...action.payload };
   }
   return combinedReducer(state, action);
 };
