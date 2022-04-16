@@ -23,10 +23,18 @@ export const api = createApi({
     getPostDetailInformation: builder.query<Post, number>({
       query: (postId) => `/posts/${postId}`,
     }),
-    // addPost: builder.query<Post, AddPostRequest>({
-
-    // })
+    addPost: builder.mutation<Post, AddPostRequest>({
+      query: (addPostRequest) => ({
+        url: `posts`,
+        method: "POST",
+        body: { ...addPostRequest, createdAt: now() },
+      }),
+    }),
   }),
 });
 
-export const { useGetPostListQuery, useGetPostDetailInformationQuery } = api;
+export const {
+  useGetPostListQuery,
+  useGetPostDetailInformationQuery,
+  useAddPostMutation,
+} = api;

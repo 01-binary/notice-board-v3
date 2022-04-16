@@ -18,10 +18,6 @@ export interface PostReduxState {
     data: Post | null;
     error: APIError | null;
   };
-  addPost: {
-    loading: boolean;
-    error: APIError | null;
-  };
   page: number;
 }
 

@@ -17,10 +17,6 @@ const initialState: PostReduxState = {
     data: null,
     error: null,
   },
-  addPost: {
-    loading: false,
-    error: null,
-  },
   page: 1,
 };
 
@@ -33,25 +29,21 @@ const postsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addMatcher(
-      api.endpoints.getPostList.matchFulfilled,
-      (state, action: PayloadAction<{ posts: Post[]; total: number }>) => {
-        const { posts, total } = action.payload;
-        state.posts.data = [...state.posts.data, ...posts];
-        state.posts.total = total;
-      },
-    );
-
-    // .addCase(
-    //   `${postsAsyncAction.addPosts.success}`,
-    //   (state, action: PayloadAction<{ post: Post }>) => {
-    //     state.addPost.loading = false;
-    //     if (state.page !== 1) {
-    //       state.posts.data = [];
-    //       state.page = 1;
-    //     }
-    //   },
-    // )
+    builder
+      .addMatcher(
+        api.endpoints.getPostList.matchFulfilled,
+        (state, action: PayloadAction<{ posts: Post[]; total: number }>) => {
+          const { posts, total } = action.payload;
+          state.posts.data = [...state.posts.data, ...posts];
+          state.posts.total = total;
+        },
+      )
+      .addMatcher(api.endpoints.addPost.matchFulfilled, (state) => {
+        if (state.page !== 1) {
+          state.posts.data = [];
+          state.page = 1;
+        }
+      });
 
     // .addCase(
     //   `${postsAsyncAction.getSelectedPost.success}`,
@@ -90,13 +82,6 @@ export const SelectedPostSelector = {
     selectedPostSelector,
     (selectedPost) => selectedPost.error,
   ),
-};
-
-const addPostSelector = createSelector(selfSelector, (state) => state.addPost);
-
-export const AddPostSelector = {
-  loading: createSelector(addPostSelector, (addPost) => addPost.loading),
-  error: createSelector(addPostSelector, (addPost) => addPost.error),
 };
 
 export const pageSelector = createSelector(selfSelector, (state) => state.page);

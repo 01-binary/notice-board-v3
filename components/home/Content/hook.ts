@@ -3,7 +3,6 @@ import { useAppDispatch, useAppSelector } from "store";
 
 import {
   PostsSelector,
-  AddPostSelector,
   pageSelector,
   postsAction,
   SelectedPostSelector,
@@ -21,11 +20,6 @@ const useContent = () => {
     useAppSelector(PostsSelector.total),
   ];
 
-  const [addPostLoading, addPostError] = [
-    useAppSelector(AddPostSelector.loading),
-    useAppSelector(AddPostSelector.error),
-  ];
-
   const [selectedPostLoading, selectedPost, selectedPostError] = [
     useAppSelector(SelectedPostSelector.loading),
     useAppSelector(SelectedPostSelector.data),
@@ -33,11 +27,16 @@ const useContent = () => {
   ];
 
   const page = useAppSelector(pageSelector);
+  const { isLoading: postsLoading } = useGetPostListQuery(
+    {
+      page,
+      limit: 10,
+    },
+    {
+      refetchOnMountOrArgChange: true,
+    },
+  );
 
-  const { isLoading: postsLoading } = useGetPostListQuery({
-    page,
-    limit: 10,
-  });
 
   const posts = useMemo(
     () =>
@@ -60,7 +59,6 @@ const useContent = () => {
 
   return {
     postsLoading,
-    addPostLoading,
     selectedPostLoading,
     setPage,
     posts,

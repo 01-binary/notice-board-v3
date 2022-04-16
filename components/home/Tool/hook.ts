@@ -1,20 +1,16 @@
-import { useCallback } from "react";
 import { useAppSelector } from "store";
 
-import type { AddPostRequest } from "interface/posts";
-import { AddPostSelector, PostsSelector } from "store/modules/posts";
+import { PostsSelector } from "store/modules/posts";
+import { useAddPostMutation } from "apis";
 
 const useTool = () => {
   const [total] = [useAppSelector(PostsSelector.total)];
-  const [addPostLoading, addPostError] = [
-    useAppSelector(AddPostSelector.loading),
-    useAppSelector(AddPostSelector.error),
-  ];
+  const [addPost, { isLoading: isAddPostLoading }] = useAddPostMutation();
 
   return {
-    // addPost,
-    addPostLoading,
+    addPost,
     total,
+    isAddPostLoading,
   };
 };
 

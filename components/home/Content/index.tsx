@@ -19,13 +19,12 @@ const Content: FC = () => {
     selectedPost,
     isNeedMoreFetch,
     postsLoading,
-    addPostLoading,
     selectedPostLoading,
   } = useContent();
 
   const { setTarget } = useIntersectionObserver({
     onIntersect: ([{ isIntersecting }]) => {
-      if (isIntersecting && !addPostLoading && !postsLoading) {
+      if (isIntersecting && !postsLoading) {
         setPage();
       }
     },
