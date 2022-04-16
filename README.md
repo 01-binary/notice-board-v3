@@ -21,3 +21,5 @@
 - chore : 그 외 수정
 
 ### 상세설명 링크
+
+https://likeable-eggnog-5b5.notion.site/PA-3-6cc69c115afc4d7e836528c9bcc794fa
