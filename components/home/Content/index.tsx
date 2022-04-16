@@ -14,17 +14,18 @@ const Content: FC = () => {
   const { isModalVisible, showModal, closeModal } = useModalData();
   const {
     setPage,
-    // getSelectedPost,
+    getSelectedPost,
     posts,
     selectedPost,
     isNeedMoreFetch,
     postsLoading,
+    postsFetching,
     selectedPostLoading,
   } = useContent();
 
   const { setTarget } = useIntersectionObserver({
     onIntersect: ([{ isIntersecting }]) => {
-      if (isIntersecting && !postsLoading) {
+      if (isIntersecting && !postsLoading && !postsFetching) {
         setPage();
       }
     },
@@ -40,7 +41,7 @@ const Content: FC = () => {
             typeof event.currentTarget.rowIndex === "number" &&
             event.currentTarget.rowIndex > 0
           ) {
-            // getSelectedPost(event.currentTarget.rowIndex);
+            getSelectedPost(event.currentTarget.rowIndex);
             showModal();
           }
         }}

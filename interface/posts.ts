@@ -1,5 +1,3 @@
-import type { APIError } from "./error";
-
 export interface Post {
   id: number;
   title: string;
@@ -12,11 +10,6 @@ export interface PostReduxState {
   posts: {
     data: Post[] | [];
     total: number | null;
-  };
-  selectedPost: {
-    loading: boolean;
-    data: Post | null;
-    error: APIError | null;
   };
   page: number;
 }

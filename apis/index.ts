@@ -20,7 +20,7 @@ export const api = createApi({
         };
       },
     }),
-    getPostDetailInformation: builder.query<Post, number>({
+    getPostDetailInformation: builder.mutation<Post, number>({
       query: (postId) => `/posts/${postId}`,
     }),
     addPost: builder.mutation<Post, AddPostRequest>({
@@ -35,6 +35,6 @@ export const api = createApi({
 
 export const {
   useGetPostListQuery,
-  useGetPostDetailInformationQuery,
+  useGetPostDetailInformationMutation,
   useAddPostMutation,
 } = api;

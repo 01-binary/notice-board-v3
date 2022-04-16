@@ -12,11 +12,6 @@ const initialState: PostReduxState = {
     data: [],
     total: null,
   },
-  selectedPost: {
-    loading: false,
-    data: null,
-    error: null,
-  },
   page: 1,
 };
 
@@ -44,14 +39,6 @@ const postsSlice = createSlice({
           state.page = 1;
         }
       });
-
-    // .addCase(
-    //   `${postsAsyncAction.getSelectedPost.success}`,
-    //   (state, action: PayloadAction<{ post: Post }>) => {
-    //     state.selectedPost.loading = false;
-    //     state.selectedPost.data = action.payload.post;
-    //   },
-    // )
   },
 });
 
@@ -62,26 +49,6 @@ const postsSelector = createSelector(selfSelector, (state) => state.posts);
 export const PostsSelector = {
   posts: createSelector(postsSelector, (posts) => posts.data),
   total: createSelector(postsSelector, (posts) => posts.total),
-};
-
-const selectedPostSelector = createSelector(
-  selfSelector,
-  (state) => state.selectedPost,
-);
-
-export const SelectedPostSelector = {
-  loading: createSelector(
-    selectedPostSelector,
-    (selectedPost) => selectedPost.loading,
-  ),
-  data: createSelector(
-    selectedPostSelector,
-    (selectedPost) => selectedPost.data,
-  ),
-  error: createSelector(
-    selectedPostSelector,
-    (selectedPost) => selectedPost.error,
-  ),
 };
 
 export const pageSelector = createSelector(selfSelector, (state) => state.page);

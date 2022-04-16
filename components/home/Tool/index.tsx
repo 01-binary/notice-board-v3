@@ -23,6 +23,7 @@ const Tool: FC = () => {
     (event: any) => {
       event.preventDefault();
       addPost(formState);
+      closeModal();
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [formState],

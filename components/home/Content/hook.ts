@@ -1,13 +1,8 @@
 import { useCallback, useMemo } from "react";
 import { useAppDispatch, useAppSelector } from "store";
 
-import {
-  PostsSelector,
-  pageSelector,
-  postsAction,
-  SelectedPostSelector,
-} from "store/modules/posts";
-import { useGetPostListQuery } from "apis";
+import { PostsSelector, pageSelector, postsAction } from "store/modules/posts";
+import { useGetPostListQuery, useGetPostDetailInformationMutation } from "apis";
 
 import { CONTENT_LIMIT } from "assets/string";
 import type { Post } from "interface/posts";
@@ -20,23 +15,21 @@ const useContent = () => {
     useAppSelector(PostsSelector.total),
   ];
 
-  const [selectedPostLoading, selectedPost, selectedPostError] = [
-    useAppSelector(SelectedPostSelector.loading),
-    useAppSelector(SelectedPostSelector.data),
-    useAppSelector(SelectedPostSelector.error),
-  ];
-
   const page = useAppSelector(pageSelector);
-  const { isLoading: postsLoading } = useGetPostListQuery(
-    {
-      page,
-      limit: 10,
-    },
-    {
-      refetchOnMountOrArgChange: true,
-    },
-  );
-
+  const { isLoading: postsLoading, isFetching: postsFetching } =
+    useGetPostListQuery(
+      {
+        page,
+        limit: 10,
+      },
+      {
+        refetchOnMountOrArgChange: true,
+      },
+    );
+  const [
+    getSelectedPost,
+    { data: selectedPost, isLoading: selectedPostLoading },
+  ] = useGetPostDetailInformationMutation();
 
   const posts = useMemo(
     () =>
@@ -59,10 +52,12 @@ const useContent = () => {
 
   return {
     postsLoading,
+    postsFetching,
     selectedPostLoading,
     setPage,
     posts,
     selectedPost,
+    getSelectedPost,
     isNeedMoreFetch,
   };
 };
